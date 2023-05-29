@@ -9,7 +9,9 @@ on:
   workflow_dispatch:
 
 env:
-  STORAGE_TYPE: ${{ secrets.STORAGE_TYPE }} # 请修改为你的存储方式，默认为leancloud
+  LSKY_7BU: ${{ secrets.LSKY_7BU }} # 请修改为你的存储方式，默认为leancloud
+  KEY: ${{ secrets.KEY }}
+  SECRET: ${{ secrets.SECRET }}
   TZ: Asia/Shanghai
 
 jobs:
