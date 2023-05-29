@@ -56,6 +56,8 @@ jobs:
     - name: pull pages
       run: |
         mkdir dist
+        git clone -b gh-pages https://github.com/kkfive/ScreenShot.git ./dist
+        rm -rf ./dist/.git
 
 
     - name: update shot
