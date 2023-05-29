@@ -1,0 +1,77 @@
+name: update-friends-posts
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+env:
+  STORAGE_TYPE: ${{ secrets.STORAGE_TYPE }} # 请修改为你的存储方式，默认为leancloud
+  TZ: Asia/Shanghai
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@main
+
+    - name: Install Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+
+    - uses: pnpm/action-setup@v2
+      name: Install pnpm
+      id: pnpm-install
+      with:
+        version: 8
+        run_install: false
+
+    - name: Get pnpm store directory
+      id: pnpm-cache
+      shell: bash
+      run: |
+        echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+    - uses: actions/cache@v3
+      name: Setup pnpm cache
+      with:
+        path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-store-
+
+    - name: Install dependencies
+      run: pnpm install
+
+    - name: set env
+      run: |
+        echo "BASE_PATH=$(pwd)" >> $GITHUB_ENV && echo "PYTHONPATH=$(pwd)" >> $GITHUB_ENV
+
+    
+    - name: pull pages
+      run: |
+        mkdir dist
+
+
+    - name: update friends shot
+      run: |
+        node ./src/index.js
+
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        publish_dir: ./dist
+
+    - name: keep alive
+      uses: gautamkrishnar/keepalive-workflow@master # keep workflows from being suspended when no commit for a long time
+
+    - name: Delete workflow runs
+      uses: Mattraks/delete-workflow-runs@v2
+      with:
+        retain_days: 3
+        keep_minimum_runs: 1
