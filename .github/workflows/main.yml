@@ -1,4 +1,4 @@
-name: update-friends-posts
+name: update-webshot
 
 on:
   push:
@@ -52,7 +52,7 @@ jobs:
       run: |
         echo "BASE_PATH=$(pwd)" >> $GITHUB_ENV && echo "PYTHONPATH=$(pwd)" >> $GITHUB_ENV
 
-    
+
     - name: pull pages
       run: |
         mkdir dist
