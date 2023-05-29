@@ -3,7 +3,7 @@ name: update-webshot
 on:
   push:
     branches:
-      - main
+      - master
   schedule:
     - cron: "0 0 * * *"
   workflow_dispatch:
@@ -58,12 +58,12 @@ jobs:
         mkdir dist
 
 
-    - name: update friends shot
+    - name: update shot
       run: |
         node ./src/index.js
 
     - name: Deploy
-      uses: peaceiris/actions-gh-pages@v3
+      uses: JamesIves/github-pages-deploy-action@v4
       with:
         publish_dir: ./dist
 
