@@ -9,8 +9,8 @@ function getSiteList () {
   return new Promise(resolve => {
     resolve([
       {
-        site: 'https://www.baidu.com',
-        name: 'baidu'
+        site: 'https://www.imlete.cn',
+        name: 'lete'
       }
     ])
   })
