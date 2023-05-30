@@ -2,7 +2,7 @@ const axios = require('axios');
 const fs = require('fs');
 const path = require('path')
 const { LSKY_7BU, KEY, SECRET } = process.env
-const webstackScreenshot = require('webstack-screenshot');
+// const webstackScreenshot = require('webstack-screenshot');
 /**
  * 获取站点列表
  * @returns {Promise<{link:string,name:string,id:string}[]>}
