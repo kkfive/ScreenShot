@@ -2,6 +2,7 @@ const axios = require('axios');
 const fs = require('fs');
 const path = require('path')
 const { LSKY_7BU, KEY, SECRET } = process.env
+const webstackScreenshot = require('webstack-screenshot');
 /**
  * 获取站点列表
  * @returns {Promise<{link:string,name:string,id:string}[]>}
@@ -14,12 +15,14 @@ async function getSiteList () {
 
 async function getShot (url, name) {
   return new Promise(async (resolve) => {
-    const response = await axios.get(`https://image.thum.io/get/width/1024/crop/768/${url}`, {
+    const response = await axios.get(`https://s0.wp.com/mshots/v1/${url}`, {
       responseType: 'arraybuffer'
     })
+    const buffer = response.data
+    // const buffer = await webstackScreenshot({url})
 
-    if (response.status === 200) {
-      fs.writeFile(path.resolve(__dirname, '..', 'dist', name + '.png'), response.data, function (err) {
+    if (buffer) {
+      fs.writeFile(path.resolve(__dirname, '..', 'dist', name + '.png'), buffer, function (err) {
         resolve()
         if (err) return console.log(`${name}保存失败：${err.message}`);
         console.log(`${name}保存成功：${url}`);
