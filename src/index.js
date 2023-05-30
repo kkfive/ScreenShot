@@ -8,7 +8,7 @@ const { LSKY_7BU, KEY, SECRET } = process.env
  * @returns {Promise<{link:string,name:string,id:string}[]>}
  */
 async function getSiteList () {
-  const result = await axios.get('https://api.antmoe.com/api/open/website/list?day=0')
+  const result = await axios.get('https://api.antmoe.com/api/open/website/list?day=7')
   return result.data.data
 }
 
@@ -62,8 +62,6 @@ async function main () {
       key: KEY,
       secret: SECRET,
     })
-    console.log(`${site.name}更新成功：${shot}`)
-
   }
 }
 
